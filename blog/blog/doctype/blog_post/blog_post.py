@@ -416,6 +416,24 @@ def get_blog_list(doctype, txt=None, filters=None, limit_start=0, limit_page_len
 	return posts
 
 
+@frappe.whitelist(allow_guest=True)
+def get_blog_post_list(
+	doctype: str = "Blog Post",
+	txt: str | None = None,
+	limit_start: int = 0,
+	limit: int = 20,
+	pathname: str | None = None,
+	**kwargs,
+):
+	"""Rendered rows of the Blog Post list, for the list template's Load More button."""
+	if doctype != "Blog Post":
+		frappe.throw(_("Only Blog Post is allowed"), title=_("Invalid DocType"))
+
+	from frappe.www.portal import get as get_portal_list
+
+	return get_portal_list(None, doctype, txt, limit_start, limit, pathname, **kwargs)
+
+
 def send_email(doc, method):
 	if doc.reference_doctype == "Blog Post" and doc.comment_type == "Comment":
 		if doc.reference_name:

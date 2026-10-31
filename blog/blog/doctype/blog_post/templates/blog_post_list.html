@@ -67,7 +67,7 @@
 				pathname: location.pathname,
 			});
 			$btn.prop("disabled", true);
-			frappe.call('frappe.www.list.get', args)
+			frappe.call('blog.blog.doctype.blog_post.blog_post.get_blog_post_list', args)
 				.then(r => {
 					var data = r.message;
 					next_start = data.next_start;
